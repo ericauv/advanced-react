@@ -11,6 +11,7 @@ const Query = {
   me(parent, args, ctx, info) {
     // Check if there is a current user Id
     if (!ctx.request.userId) {
+      console.log('WAS NULL!');
       return null;
     }
     return ctx.db.query.user(
