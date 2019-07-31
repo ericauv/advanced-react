@@ -41,9 +41,9 @@ class Signup extends Component {
           return (
             <Form
               method="post"
-              onSubmit={e => {
+              onSubmit={async e => {
                 e.preventDefault();
-                signup();
+                await signup();
                 this.setState({ name: '', email: '', password: '' });
               }}
             >

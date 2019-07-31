@@ -63,7 +63,7 @@ const Mutations = {
       info
     );
     //create JWT token, set cookie on the response
-    const token = createTokenCookie(user.id, ctx);
+    createTokenCookie(user.id, ctx);
     // return user to browser
     return user;
   },
@@ -79,7 +79,7 @@ const Mutations = {
       throw new Error('Invalid password');
     }
     // 3. Generate JWT token, set cookie with the token
-    const token = createTokenCookie(user.id, ctx);
+    createTokenCookie(user.id, ctx);
 
     // 5. Return the user
     return user;
@@ -105,7 +105,6 @@ const Mutations = {
       where: { email: args.email },
       data: { resetToken, resetTokenExpiry }
     });
-    console.log(res);
     return { message: 'Thanks' };
     // 3. Email them that reset token
   },
@@ -132,7 +131,7 @@ const Mutations = {
     // 4. Hash new password
     const password = await bcrypt.hash(newPassword, 10);
     // 5. Save new password to user, remove old reset token fields
-    const updatedUser = ctx.db.mutation.updateUser({
+    const updatedUser = await ctx.db.mutation.updateUser({
       where: { email: user.email },
       data: {
         password,
@@ -141,7 +140,7 @@ const Mutations = {
       }
     });
     // 6. Generate jwt, set cookie to response
-    const token = createTokenCookie(updatedUser.id, ctx);
+    createTokenCookie(updatedUser.id, ctx);
     // 8. Return the new user
     return updatedUser;
   }
