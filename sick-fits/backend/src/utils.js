@@ -5,12 +5,12 @@ function hasPermission(user, permissionsNeeded) {
   if (!matchedPermissions.length) {
     throw new Error(`You do not have sufficient permissions
 
-      : ${permissionsNeeded}
+    : ${permissionsNeeded}
 
-      You Have:
+    You Have:
 
-      ${user.permissions}
-      `);
+    ${user.permissions}
+    `);
   }
 }
 

@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { randomBytes } = require('crypto'); // for reset Token
 const { promisify } = require('util'); // to promisify reset Token
 const { transport, makeANiceEmail } = require('../mail');
-
+const { hasPermission } = require('../utils');
 const createTokenCookie = (userId, ctx) => {
   const token = jwt.sign({ userId }, process.env.APP_SECRET);
   ctx.response.cookie('token', token, {
@@ -161,6 +161,23 @@ const Mutations = {
     // 6. Generate jwt, set cookie to response
     createTokenCookie(updatedUser.id, ctx);
     // 8. Return the new user
+    return updatedUser;
+  },
+  async updatePermissions(parent, args, ctx, info) {
+    // 1. Check if user is logged in
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in to do that!');
+    }
+    // 2. Check if user has sufficient permissions
+    hasPermission(ctx.request.user, ['ADMIN', 'PERMISSIONUPDATE']);
+    // 3. Update permissions
+    const updatedUser = await ctx.db.mutation.updateUser({
+      where: { id: user.id },
+      data: {
+        permissions: args.permissions
+      }
+    });
+
     return updatedUser;
   }
 };
