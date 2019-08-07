@@ -27,6 +27,7 @@ const Query = {
     // 3. Query all users
     return ctx.db.query.users({}, info);
   }
+  // cartItems: forwardTo('db')
 };
 
 module.exports = Query;
