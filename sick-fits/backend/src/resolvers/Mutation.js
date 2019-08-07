@@ -168,17 +168,30 @@ const Mutations = {
     if (!ctx.request.userId) {
       throw new Error('You must be logged in to do that!');
     }
-    // 2. Check if user has sufficient permissions
-    hasPermission(ctx.request.user, ['ADMIN', 'PERMISSIONUPDATE']);
-    // 3. Update permissions
-    const updatedUser = await ctx.db.mutation.updateUser({
-      where: { id: user.id },
-      data: {
-        permissions: args.permissions
-      }
-    });
+    // 2. Query the current user
+    const currentUser = await ctx.db.query.user(
+      {
+        where: {
+          id: ctx.request.userId // Need to get currently signed in user to check if they have permission to update
+        }
+      },
+      info
+    );
 
-    return updatedUser;
+    // 3. Check if user has sufficient permissions
+    hasPermission(currentUser, ['ADMIN', 'PERMISSIONUPDATE']);
+    // 4. Update permissions
+    return ctx.db.mutation.updateUser(
+      {
+        data: {
+          permissions: {
+            set: args.permissions
+          }
+        },
+        where: { id: args.userId } // May be updating different user than that which is logged in
+      },
+      info
+    );
   }
 };
 
