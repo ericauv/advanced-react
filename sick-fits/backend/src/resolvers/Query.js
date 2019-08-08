@@ -4,17 +4,19 @@ const Query = {
   items: forwardTo('db'),
   item: forwardTo('db'),
   itemsConnection: forwardTo('db'),
-  me(parent, args, ctx, info) {
+  async me(parent, args, ctx, info) {
     // Check if there is a current user Id
     if (!ctx.request.userId) {
       return null;
     }
-    return ctx.db.query.user(
+    const user = await ctx.db.query.user(
       {
         where: { id: ctx.request.userId }
       },
       info
     );
+    console.log(user);
+    return user;
   },
   async users(parent, args, ctx, info) {
     // 1. Check if logged in
@@ -27,7 +29,6 @@ const Query = {
     // 3. Query all users
     return ctx.db.query.users({}, info);
   }
-  // cartItems: forwardTo('db')
 };
 
 module.exports = Query;
