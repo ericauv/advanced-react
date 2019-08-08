@@ -12,7 +12,7 @@ const CartItemStyles = styled.li`
   border-bottom: 1px solid ${props => props.theme.lightgrey};
   display: grid;
   align-items: center;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr auto auto;
   img {
     margin-right: 10px;
   }
@@ -23,6 +23,14 @@ const CartItemStyles = styled.li`
 `;
 
 const CartItem = ({ cartItem }) => {
+  // Check if the item exists
+  if (!cartItem.item)
+    return (
+      <CartItemStyles>
+        <p>This item has been removed.</p>
+        <RemoveFromCart id={cartItem.id} />
+      </CartItemStyles>
+    );
   const { item } = cartItem;
   return (
     <CartItemStyles>
