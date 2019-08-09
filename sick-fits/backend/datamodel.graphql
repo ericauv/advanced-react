@@ -45,7 +45,7 @@ type OrderItem {
   largeImage: String!
   price: Int!
   quantity: Int! @default(value: 1)
-  User: User
+  user: User
 }
 
 type Order {

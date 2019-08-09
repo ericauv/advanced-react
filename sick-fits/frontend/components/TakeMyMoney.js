@@ -28,18 +28,16 @@ const CREATE_ORDER_MUTATION = gql`
 `;
 
 class TakeMyMoney extends React.Component {
-  onToken = (res, createOrder) => {
-    console.log('onToken called');
-    console.log(res.id);
-
+  onToken = async (res, createOrder) => {
     // Call Mutation once we have the stripe token
-    createOrder({
+    const order = await createOrder({
       variables: {
         token: res.id
       }
     }).catch(err => {
       alert(err.message);
     });
+    console.log(order);
   };
   render() {
     return (
@@ -47,14 +45,16 @@ class TakeMyMoney extends React.Component {
         {({ data: { me } }) => (
           <Mutation
             mutation={CREATE_ORDER_MUTATION}
-            refetchQueries={CURRENT_USER_QUERY}
+            refetchQueries={[{ query: CURRENT_USER_QUERY }]}
           >
             {(createOrder, { error, loading }) => (
               <StripeCheckout
                 amount={calcTotalPrice(me.cart)}
                 name="Sick Fits"
                 description={`Order of ${totalItems(me.cart)} items`}
-                image={me.cart[0].item && me.cart[0].item.image}
+                image={
+                  me.cart.length && me.cart[0].item && me.cart[0].item.image
+                }
                 stripeKey="pk_test_HyD9cJ324Q9qasGMyYZXLqJh00YCHdNNV3"
                 currency="USD"
                 email={me.email}
