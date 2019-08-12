@@ -26,11 +26,11 @@ const CREATE_ITEM_MUTATION = gql`
 `;
 class CreateItem extends Component {
   state = {
-    title: 'Cool SHoes',
-    description: 'Cool shoes desc',
+    title: '',
+    description: '',
     image: '',
     largeImage: '',
-    price: 10,
+    price: 0,
     uploadedImage: false
   };
   handleChange = e => {
