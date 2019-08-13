@@ -30,8 +30,7 @@ class CreateItem extends Component {
     description: '',
     image: '',
     largeImage: '',
-    price: 0,
-    uploadedImage: false
+    price: 0
   };
   handleChange = e => {
     const { name, type, value } = e.target;
@@ -39,7 +38,6 @@ class CreateItem extends Component {
     this.setState({ [name]: val });
   };
   uploadFile = async e => {
-    this.setState({ uploadedImage: false });
     console.log('uploading file...');
     const files = e.target.files;
     const data = new FormData();
@@ -54,11 +52,9 @@ class CreateItem extends Component {
       }
     );
     const file = await res.json();
-    console.log(file);
     this.setState({
       image: file.secure_url,
-      largeImage: file.eager[0].secure_url,
-      uploadedImage: true
+      largeImage: file.eager[0].secure_url
     });
   };
   render() {
@@ -71,7 +67,7 @@ class CreateItem extends Component {
               e.preventDefault();
 
               // Only submit if image has been uploaded
-              if (this.state.uploadedImage) {
+              if (this.state.image) {
                 // Call mutation
                 const res = await createItem();
                 // Bring to single item page
@@ -79,16 +75,13 @@ class CreateItem extends Component {
                   pathname: '/item',
                   query: { id: res.data.createItem.id }
                 });
-                console.log(res.data.createItem.id);
-              } else {
-                console.log('image not uploaded yet');
               }
             }}
           >
             <Error error={error} />
             <fieldset disabled={loading} aria-busy={loading}>
               <label htmlFor="file">
-                Title
+                Image
                 <input
                   type="file"
                   id="file"

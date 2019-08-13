@@ -15,7 +15,7 @@ exports[`<CreateItem></CreateItem> renders the form 1`] = `
     <label
       htmlFor="file"
     >
-      Title
+      Image
       <input
         id="file"
         name="file"
