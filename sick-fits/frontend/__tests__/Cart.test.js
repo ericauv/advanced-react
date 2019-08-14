@@ -2,9 +2,6 @@ import wait from 'waait';
 import { MockedProvider } from 'react-apollo/test-utils';
 import { mount } from 'enzyme';
 import toJSON from 'enzyme-to-json';
-import RequestReset, {
-  REQUEST_RESET_MUTATION
-} from '../components/RequestReset';
 import Cart, { LOCAL_STATE_QUERY } from '../components/Cart';
 import { CURRENT_USER_QUERY } from '../components/User';
 import { fakeUser, fakeCartItem } from '../lib/testUtils';

@@ -4,7 +4,6 @@ import { mount } from 'enzyme';
 import toJSON from 'enzyme-to-json';
 import Nav from '../components/Nav';
 import { CURRENT_USER_QUERY } from '../components/User';
-import PleaseSignIn from '../components/PleaseSignIn';
 import { fakeUser, fakeCartItem } from '../lib/testUtils';
 
 const notSignedInMocks = [
