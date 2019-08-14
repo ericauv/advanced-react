@@ -31,8 +31,6 @@ class RemoveFromCart extends Component {
   update = (cache, payload) => {
     // 1. Read the cache
     const data = cache.readQuery({ query: CURRENT_USER_QUERY });
-    console.log(data);
-
     // 2. Remove the item form the cart
     const cartItemId = payload.data.removeFromCart.id;
     data.me.cart = data.me.cart.filter(cartItem => cartItem.id !== cartItemId);

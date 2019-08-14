@@ -15,9 +15,9 @@ import {
   fakeOrderItem
 } from '../lib/testUtils';
 
-const user = fakeUser();
-const cartItem = fakeCartItem();
-const order = fakeOrder();
+const user = { ...fakeUser() };
+const cartItem = { ...fakeCartItem() };
+const order = { ...fakeOrder() };
 // define push() as empty function until testing routing
 Router.router = {
   push() {}

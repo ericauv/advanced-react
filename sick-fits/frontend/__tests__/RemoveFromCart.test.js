@@ -11,8 +11,8 @@ import { fakeUser, fakeCartItem, fakeItem } from '../lib/testUtils';
 
 global.alert = console.log;
 
-const cartItem = fakeCartItem();
-const user = fakeUser();
+const cartItem = { ...fakeCartItem() };
+const user = { ...fakeUser() };
 const mocks = [
   {
     request: { query: CURRENT_USER_QUERY },
@@ -61,7 +61,6 @@ describe.only('<RemoveFromCart></RemoveFromCart>', () => {
     const {
       data: { me }
     } = await apolloClient.query({ query: CURRENT_USER_QUERY });
-    console.log(me);
     expect(me.cart).toHaveLength(1);
     expect(me.cart[0].item.price).toBe(cartItem.item.price);
     // remove the item from cart
@@ -71,7 +70,6 @@ describe.only('<RemoveFromCart></RemoveFromCart>', () => {
     const {
       data: { me: me2 }
     } = await apolloClient.query({ query: CURRENT_USER_QUERY });
-    console.log(me2);
     expect(me2.cart).toHaveLength(0);
   });
 });
