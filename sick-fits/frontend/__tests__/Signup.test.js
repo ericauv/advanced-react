@@ -68,13 +68,15 @@ describe('<Signup/>', () => {
     );
     await wait();
     wrapper.update();
+    // Simulate typing into the signup form
     simulateTyping(wrapper, 'name', me.name);
     simulateTyping(wrapper, 'email', me.email);
     simulateTyping(wrapper, 'password', 'test');
     wrapper.update();
+    // Simulate submitting signup form
     wrapper.find('form').simulate('submit');
     await wait();
-    // query user out of apollo client
+    // query user out of apollo client (make sure that mutation worked and refetch query of CURRENT_USER also works)
     const user = await apolloClient.query({ query: CURRENT_USER_QUERY });
     expect(user.data.me).toMatchObject(me);
   });
