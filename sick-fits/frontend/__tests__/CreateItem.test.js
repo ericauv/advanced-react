@@ -121,8 +121,6 @@ describe('<CreateItem></CreateItem>', () => {
     };
     // waiting to ensure that routing occurs
     await wait(50);
-    // wrapper.update();
-    // console.log(wrapper.debug());
     expect(Router.router.push).toHaveBeenCalled();
     expect(Router.router.push).toHaveBeenCalledWith({
       pathname: '/item',
