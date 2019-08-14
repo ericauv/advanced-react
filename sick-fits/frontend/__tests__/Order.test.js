@@ -31,4 +31,12 @@ describe('<Order></Order>', () => {
     wrapper.update();
     expect(toJSON(wrapper.find('div.order'))).toMatchSnapshot();
   });
+  it('shows loading state', async () => {
+    const wrapper = mount(
+      <MockedProvider mocks={mocks}>
+        <Order id={order.id} />
+      </MockedProvider>
+    );
+    expect(wrapper.find('p').text()).toContain('Loading...');
+  });
 });
